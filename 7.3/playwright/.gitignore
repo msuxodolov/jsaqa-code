@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 node_modules/
 user.js
+=======
+/node_modules/
+>>>>>>> 4314e66b2d72fde376be175c510d5b085d787255
 
 
 .vscode/*
