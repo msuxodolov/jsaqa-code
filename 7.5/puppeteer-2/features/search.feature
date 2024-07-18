@@ -21,10 +21,10 @@ Feature: Registration cinema
         When user receives the booking code
         Then user gets a ticket "Электронный билет"
 
-    Scenario: Gone with the wind occupied place
+    Scenario: Stalker occupied place
         Given user is on page "http://qamid.tmweb.ru/client/index.php"
         When user clicks date
-        When user clicks time Gone with the wind
-        Then user the selection of the location and the start of the session opens "Начало сеанса: 17:00"
+        When user clicks time Stalker
+        Then user the selection of the location and the start of the session opens "Начало сеанса: 13:00"
         When user select an occupied place
         Then user the button is inactive

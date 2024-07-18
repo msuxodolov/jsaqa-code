@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const chai = require("chai");
 const expect = chai.expect;
 const { Given, When, Then, Before, After } = require("cucumber");
-const { putText, getText } = require("../../lib/commands.js");
+const { clickElement, getText } = require("../../lib/commands.js");
 
 Before(async function () {
   const browser = await puppeteer.launch({ headless: false, slowMo: 50 });
@@ -17,27 +17,27 @@ After(async function () {
   }
 });
 
-Given("user is on page", async function (string) {
-  return await this.page.goto(`https://qamid.tmweb.ru/client/payment.php`, {
+Given('user is on page {string}', async function (string) {
+  return await this.page.goto(`${string}`, {
     setTimeout: 20000,
   });
 });
 
 When("user clicks date", async function () {
-  return await clickElement(page, "page-nav__day page-nav__day_weekend[href='#'][data-time-stamp='1721422800']");
+  return await clickElement(this.page, "a:nth-child(2)");
 });
 
 When("user clicks time Stalker", async function () {
-  clickElement(page, ".movie-seances__time[href='#'][data-seance-id='217']")
+  clickElement(this.page, ".movie-seances__time[href='#'][data-seance-id='217']")
 });
 
 When("user clicks time Micki Mouse", async function () {
-  clickElement(page, ".movie-seances__time[href='#'][data-seance-id='218']")
+  clickElement(this.page, ".movie-seances__time[href='#'][data-seance-id='218']")
 });
 
-When("user clicks time Gone with the wind", async function () {
-  clickElement(page, ".movie-seances__time[href='#'][data-seance-id='190']")
-});
+//When("user clicks time Gone with the wind", async function () {
+//  clickElement(this.page, ".movie-seances__time[href='#'][data-seance-id='190']")
+//});
 
 Then("user the selection of the location and the start of the session opens {string}", async function (string) {
   const actual = await getText(this.page, "p.buying__info-start");
@@ -46,15 +46,15 @@ Then("user the selection of the location and the start of the session opens {str
 });
 
 When("user chooses a place", async function () {
-  await clickElement(page, "buying-scheme__chair buying-scheme__chair_standart");
+  await clickElement(this.page, "div:nth-child(1) span:nth-child(8)");
 });
 
 When("user select an occupied place", async function () {
-  await clickElement(page, "buying-scheme__chair buying-scheme__chair_standart buying-scheme__chair_taken");
+  await clickElement(this.page, "div:nth-child(1) span:nth-child(8)");
 });
 
 When("user book a place", async function () {
-  await clickElement(page, "button.acceptin-button");
+  await clickElement(this.page, "button.acceptin-button");
 });
 
 Then("user he has chosen a ticket and receives a code {string}", async function (string) {
@@ -64,7 +64,7 @@ Then("user he has chosen a ticket and receives a code {string}", async function 
 });
 
 When("user receives the booking code", async function () {
-  await clickElement(page, "button.acceptin-button");
+  await clickElement(this.page, "button.acceptin-button");
   });
 
 Then("user gets a ticket {string}", async function (string) {
@@ -73,7 +73,7 @@ Then("user gets a ticket {string}", async function (string) {
   expect(actual).contains(expected);
   });
 
-Then("user the button is inactive", async function (string) {
+Then("user the button is inactive{string}", async function (string) {
   const actual = String(
     await this.page.$eval("button", (button) => {
       return button.disabled;
